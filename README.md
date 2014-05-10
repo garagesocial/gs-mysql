@@ -1,7 +1,3 @@
-# gs_mysql
-
-**gs_mysql** is the start of a python class wrapper around MySQL-python to manage the connection and perform common operations
-
 ## Requirements
 
   * MySQL-python
