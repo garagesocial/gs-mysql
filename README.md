@@ -1,10 +1,10 @@
 # gs_mysql
 
-**gs_mysql** is the start of a python class wrapper around MySQL-python to manage manage the connection and perform common operations
+**gs_mysql** is the start of a python class wrapper around MySQL-python to manage the connection and perform common operations
 
 ## Requirements
 
-  * MySQLdb Driver
+  * MySQL-python
     *   linux:  ``sudo apt-get install python-mysqldb``
     *   windows: http://www.codegood.com/archives/129
 
@@ -27,7 +27,7 @@
 ### Create database
 
 ```php
-my_instance.drop("database")
+my_instance.create("database")
 ```
 
 <a name="drop-database"></a>
@@ -50,7 +50,6 @@ my_instance.dump("database", "/home/user/my_dump.sql")
 ```php
 my_instance.raw("database", "DELETE FROM groups WHERE ID = 2")
 ```
-
+### License
 gs_sql is licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT)
-(See LICENSE file for details).
 
