@@ -1,13 +1,13 @@
 #!/usr/bin/python
 
-################################################################################
+###############################################################################
 ### Garagesocial, Inc. - https://www.garagesocial.com
-################################################################################
+###############################################################################
 ###
 ### Filename:  gs_mysql.py
 ###
-### About:     Is a basic start of a python shell class to help managing the
-###            connection with an sql database and performing common operations
+### About:     Python shell class to facilitate and manage common MySQL
+###            operations through MySQL-python driver
 ### Usage:
 ###            Method 1:
 ###               my_instance = gs_mysql("host", "username", "password", "port")
@@ -25,7 +25,7 @@
 ###
 ### Documentation Reference: https://docs.python.org/devguide/documenting.html
 ###
-################################################################################
+###############################################################################
 ###
 ### The MIT License (MIT)
 ###
@@ -49,7 +49,7 @@
 ### FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ### DEALINGS IN THE SOFTWARE.
 ###
-################################################################################
+###############################################################################
 
 import MySQLdb
 import subprocess, shlex
@@ -88,6 +88,8 @@ class gs_mysql:
 
    #############################################################################
 
+   # Instantiate the mysql handle and cursor and store them
+   # Connection information passed into constructor are used
    def setup(self):
       """Initialize the db handle and cursor"""
       if self.db_handle is None:
@@ -95,11 +97,13 @@ class gs_mysql:
                                           passwd=self.password, port=self.port)
          self.db_cursor = self.cursor()
 
+   # Instantiate db handle if necessary and update local variable
    def handle(self):
       """Initialize the db handle"""
       if self.db_handle is None: setup()
       return self.db_handle
 
+   # Instantiate db cursor if necessary and update local variable
    def cursor(self):
       """Initialize the db cursor"""
       if self.db_handle is None or self.db_cursor is None:
@@ -109,17 +113,31 @@ class gs_mysql:
 
    #############################################################################
 
+   # Create a database
+   #
+   # @param  string   database    Name of database
+   # @param  bool     drop_first  Whether to attempt to drop the database first
+   # @return void
    def create(self, database, drop_first = False):
       """Create specified database"""
       if drop_first: self.drop(database)
       self.cursor().execute("CREATE DATABASE %s;" % database)
       self.handle().commit()
 
+   # Drop a database
+   #
+   # @param  string   database    Name of database
+   # @return void
    def drop(self, database):
       """Drop specified database"""
       self.cursor().execute("DROP DATABASE IF EXISTS %s;" % database)
       self.handle().commit()
 
+   # Dump a database to a file
+   #
+   # @param  string   database            Name of database
+   # @param  string   output_file_path    File path to dump database to
+   # @return void
    def dump(self, database, output_file_path):
       """Dump specified database to file"""
       command_text = """
@@ -141,7 +159,13 @@ class gs_mysql:
                      }
       subprocess.call(shlex.split(command_text % command_data ))
 
+   # Execute a raw command
+   #
+   # @param  string   raw  (ex: DELETE FROM groups WHERE ID = 2)
+   # @return void
    def raw(self, raw):
       """Execute raw sql commands"""
       self.cursor().execute(raw)
       self.handle().commit()
+
+# End of gs_mysql.py
