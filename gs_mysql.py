@@ -53,6 +53,7 @@
 
 import MySQLdb
 import subprocess, shlex
+import warnings
 
 class gs_mysql:
    ### connection information
@@ -130,8 +131,12 @@ class gs_mysql:
    # @return void
    def drop(self, database):
       """Drop specified database"""
+      # the IF EXISTS is not respected and a warning is still thrown
+      # this ignores it
+      warnings.filterwarnings("ignore")
       self.cursor().execute("DROP DATABASE IF EXISTS %s;" % database)
       self.handle().commit()
+      warnings.resetwarnings()
 
    # Dump a database to a file
    #
@@ -147,7 +152,7 @@ class gs_mysql:
                         --host=%(host)s
                         --port=%(port)i
                         %(database)s
-                        --result-file=%(file)s
+                        --result-file="%(file)s"
                      """
       command_data = {
                         "user": self.username,
@@ -158,6 +163,32 @@ class gs_mysql:
                         "file": output_file_path
                      }
       subprocess.call(shlex.split(command_text % command_data ))
+
+   # Inject a database dump
+   #
+   # @param  string   database            Name of database
+   # @param  string   input_file_path     Path to SQL dump
+   # @return void
+   def inject(self, database, input_file_path):
+      """Inject a dump sql file into database"""
+      command_text = """
+                        mysql
+                        --user=%(user)s
+                        --password=%(password)s
+                        --host=%(host)s
+                        --port=%(port)i
+                        %(database)s
+                     """
+      command_data = {
+                        "user": self.username,
+                        "password": self.password,
+                        "host": self.host,
+                        "port": self.port,
+                        "database": database
+                     }
+
+      proc = subprocess.Popen(shlex.split(command_text % command_data), stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+      out, err = proc.communicate(file(input_file_path).read())
 
    # Execute a raw command
    #
