@@ -1,3 +1,6 @@
+gs_mysql
+===============
+
 ## Requirements
 
   * MySQL-python
@@ -47,5 +50,5 @@ my_instance.dump("database", "/home/user/my_dump.sql")
 my_instance.raw("database", "DELETE FROM groups WHERE ID = 2")
 ```
 ### License
-gs_sql is licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT)
+gs_mysql is licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT)
 
