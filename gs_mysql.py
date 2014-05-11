@@ -147,7 +147,7 @@ class gs_mysql:
                         --host=%(host)s
                         --port=%(port)i
                         %(database)s
-                        --result-file=%(file)s
+                        --result-file="%(file)s"
                      """
       command_data = {
                         "user": self.username,
