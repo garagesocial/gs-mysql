@@ -12,6 +12,7 @@ gs_mysql
 * [Create a database](#create-database)
 * [Drop a database](#drop-database)
 * [Dump a database](#dump-database)
+* [Inject a database](#inject-database)
 * [Execute raw command](#raw-command)
 
 
@@ -49,6 +50,16 @@ my_instance.dump("database", "/home/user/my_dump.sql")
 ```php
 my_instance.raw("database", "DELETE FROM groups WHERE ID = 2")
 ```
+
+<a name="inject-database"></a>
+### Inject a database from an sql dump 
+note: make sure the sql dump does not contain ``create database`` statements or `use` statements
+
+```php
+my_instance.inject("database", "/home/user/my_dump.sql")
+```
+
+
 ### License
 gs_mysql is licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT)
 
