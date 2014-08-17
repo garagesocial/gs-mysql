@@ -4,7 +4,7 @@
 ### Garagesocial, Inc. - https://www.garagesocial.com
 ###############################################################################
 ###
-### Filename:  gs_mysql.py
+### Filename:  gs_mysql.py - https://github.com/garagesocial/gs-mysql
 ###
 ### About:     Python shell class to facilitate and manage common MySQL
 ###            operations through MySQL-python driver
